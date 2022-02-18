@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+
+{% if transactions %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Name</th>
+        <th scope="col">#</th>
+        <th scope="col" class="text-end">Price</th>
+        <th scope="col" class="text-end">Costs</th>
+        <th scope="col" class="text-end">Avg. Cost</th>
+        <th scope="col" class="text-end">Current Rate</th>
+        <th scope="col" class="text-end">Difference</th>
+        <th scope="col" class="text-end">Subtotal</th>
+        <th scope="col" class="text-end">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.date }}</td>
+        <td>{{ transaction.stock.name }}</td>
+        <td>{{ transaction.quantity }}</td>
+        <td class="text-end">{{transaction.currency_code }} {{ transaction.price | floatformat:2 }}</td>
+        <td class="text-end">{{transaction.currency_code }} {{ transaction.costs | floatformat:2 }}</td>
+        <td class="text-end">{{transaction.currency_code }} {{ transaction.average_cost | floatformat:2 }}</td>
+        <td class="text-end">{{transaction.currency_code }} {{ transaction.current_rate | floatformat:2 }}</td>
+        <td class="text-end">{{ transaction.diff_percentage | floatformat:2 }} %</td>
+        <td class="text-end">{{transaction.currency_code }} {{ transaction.subtotal  | floatformat:2 }}</td>
+        <td class="text-end">€ {{ transaction.total }}</td>
+    </tr>
+    {% endfor %}
+
+    <tfoot>
+    <tr>
+        <td>Total</td>
+        <td colspan="6" class="text-end">€ {{ current_value | floatformat:2 }}</td>
+        <td class="text-end">{{ difference | floatformat:2 }} %</td>
+        <td colspan="2" class="text-end">€ {{ total | floatformat:2 }}</td>
+    </tr>
+    </tfoot>
+    </tbody>
+</table>
+{% else %}
+<p>No shares are available.</p>
+{% endif %}
+
+{% endblock %}

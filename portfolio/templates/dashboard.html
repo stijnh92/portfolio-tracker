@@ -1,0 +1,9 @@
+{% if transactions %}
+    <ul>
+    {% for transaction in transactions %}
+        {{ transaction.date }} - {{ transaction.share.name }}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No shares are available.</p>
+{% endif %}
